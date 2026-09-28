@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#eaf1e8">
   <title>Fieldnote — a little corner of the internet</title>
+  <script>
+    try {
+      const savedTheme = localStorage.getItem('fieldnote-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    } catch {
+      document.documentElement.dataset.theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
@@ -19,8 +28,50 @@
       --leaf: #386c50;
       --leaf-dark: #2c573f;
       --coral: #d76756;
+      --pattern-dot: #c8d8c8;
+      --topbar-bg: rgba(255, 254, 250, 0.9);
+      --post-border: rgba(36, 51, 44, 0.08);
+      --post-shadow: rgba(37, 67, 47, 0.09);
+      --action-text: #59665e;
+      --action-hover: #f6f8f2;
+      --focus-ring: #98bea2;
+      --comment-bg: #f3f5ef;
+      --avatar-bg: #e1ebdd;
+      --avatar-ink: #395a45;
+      --you-avatar-bg: #f1dfd4;
+      --you-avatar-ink: #814d3c;
+      --input-bg: #fff;
+      --input-border: #e1e6dc;
+      --placeholder: #89938b;
       --serif: "Fraunces", Georgia, serif;
       --sans: "DM Sans", "Segoe UI", sans-serif;
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --ink: #e7eee8;
+      --muted: #a5b2a8;
+      --paper: #202b25;
+      --ground: #151e19;
+      --line: #37453b;
+      --leaf: #79a987;
+      --leaf-dark: #a2c9a7;
+      --coral: #f08a75;
+      --pattern-dot: #29372e;
+      --topbar-bg: rgba(27, 38, 31, 0.94);
+      --post-border: rgba(255, 255, 255, 0.06);
+      --post-shadow: rgba(0, 0, 0, 0.22);
+      --action-text: #b8c4ba;
+      --action-hover: #2b3830;
+      --focus-ring: #9ac29f;
+      --comment-bg: #29362e;
+      --avatar-bg: #35473a;
+      --avatar-ink: #cee1d0;
+      --you-avatar-bg: #44352e;
+      --you-avatar-ink: #f0c1aa;
+      --input-bg: #1b261f;
+      --input-border: #3d4b40;
+      --placeholder: #9aa79d;
     }
 
     * { box-sizing: border-box; }
@@ -31,7 +82,7 @@
       color: var(--ink);
       font-family: var(--sans);
       background-color: var(--ground);
-      background-image: radial-gradient(#c8d8c8 0.7px, transparent 0.7px);
+      background-image: radial-gradient(var(--pattern-dot) 0.7px, transparent 0.7px);
       background-size: 17px 17px;
     }
 
@@ -41,7 +92,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 max(24px, calc((100vw - 1020px) / 2));
-      background: rgba(255, 254, 250, 0.9);
+      background: var(--topbar-bg);
       border-bottom: 1px solid rgba(56, 108, 80, 0.12);
     }
 
@@ -72,6 +123,28 @@
       font-size: 13px;
     }
 
+    .topbar-tools {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .theme-toggle {
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 11px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      color: var(--ink);
+      background: var(--paper);
+      font: 600 12px var(--sans);
+      cursor: pointer;
+    }
+
+    .theme-toggle:hover { border-color: var(--leaf); }
+
     main {
       display: flex;
       justify-content: center;
@@ -91,9 +164,9 @@
     .post {
       overflow: hidden;
       background: var(--paper);
-      border: 1px solid rgba(36, 51, 44, 0.08);
+      border: 1px solid var(--post-border);
       border-radius: 8px;
-      box-shadow: 0 12px 35px rgba(37, 67, 47, 0.09);
+      box-shadow: 0 12px 35px var(--post-shadow);
       animation: arrive 420ms ease-out both;
     }
 
@@ -110,7 +183,7 @@
       flex: 0 0 auto;
       border-radius: 50%;
       object-fit: cover;
-      background: #dce8da;
+      background: var(--avatar-bg);
     }
 
     .author { min-width: 0; }
@@ -156,15 +229,15 @@
       gap: 8px;
       border: 0;
       background: transparent;
-      color: #59665e;
+      color: var(--action-text);
       font: 600 13px var(--sans);
       cursor: pointer;
       transition: color 140ms ease, background 140ms ease;
     }
 
-    .action-button:hover { color: var(--leaf-dark); background: #f6f8f2; }
-    .action-button:focus-visible, .submit-button:focus-visible, .comment-input:focus-visible {
-      outline: 3px solid #98bea2;
+    .action-button:hover { color: var(--leaf-dark); background: var(--action-hover); }
+    .action-button:focus-visible, .submit-button:focus-visible, .comment-input:focus-visible, .theme-toggle:focus-visible {
+      outline: 3px solid var(--focus-ring);
       outline-offset: 2px;
     }
 
@@ -196,8 +269,8 @@
       height: 30px;
       place-items: center;
       border-radius: 50%;
-      color: #395a45;
-      background: #e1ebdd;
+      color: var(--avatar-ink);
+      background: var(--avatar-bg);
       font-size: 11px;
       font-weight: 700;
     }
@@ -206,7 +279,7 @@
       width: fit-content;
       max-width: 100%;
       padding: 9px 12px;
-      background: #f3f5ef;
+      background: var(--comment-bg);
       border-radius: 3px 10px 10px;
       font-size: 13px;
       line-height: 1.5;
@@ -222,21 +295,21 @@
       padding: 16px 22px 20px;
     }
 
-    .you-avatar { background: #f1dfd4; color: #814d3c; }
+    .you-avatar { background: var(--you-avatar-bg); color: var(--you-avatar-ink); }
     .comment-input {
       width: 100%;
       min-height: 42px;
       max-height: 110px;
       resize: vertical;
       padding: 11px 13px;
-      border: 1px solid #e1e6dc;
+      border: 1px solid var(--input-border);
       border-radius: 5px;
       color: var(--ink);
-      background: #fff;
+      background: var(--input-bg);
       font: 13px var(--sans);
     }
 
-    .comment-input::placeholder { color: #89938b; }
+    .comment-input::placeholder { color: var(--placeholder); }
     .submit-button {
       min-height: 38px;
       padding: 0 13px;
@@ -259,7 +332,7 @@
 
     @media (max-width: 520px) {
       .topbar { height: 60px; padding: 0 17px; }
-      .topbar-note { font-size: 11px; }
+      .topbar-note { display: none; }
       main { padding: 30px 12px 48px; }
       .post-header { padding: 17px 16px 14px; }
       .post-copy { padding: 0 16px 15px; }
@@ -278,7 +351,12 @@
 <body>
   <header class="topbar">
     <a class="brand" href="#feed" aria-label="Fieldnote home"><span class="brand-mark" aria-hidden="true">f</span>fieldnote</a>
-    <span class="topbar-note">A little corner of the internet</span>
+    <div class="topbar-tools">
+      <span class="topbar-note">A little corner of the internet</span>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Enable dark mode" aria-pressed="false">
+        <span aria-hidden="true">&#9790;</span>Dark mode
+      </button>
+    </div>
   </header>
 
   <main id="feed">
@@ -336,7 +414,35 @@
     const commentList = document.querySelector('#comment-list');
     const commentForm = document.querySelector('#comment-form');
     const commentInput = document.querySelector('#comment-input');
+    const themeToggle = document.querySelector('#theme-toggle');
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    const themePreference = window.matchMedia('(prefers-color-scheme: dark)');
     let likes = 24;
+
+    function applyTheme(theme) {
+      const dark = theme === 'dark';
+      document.documentElement.dataset.theme = theme;
+      themeToggle.setAttribute('aria-pressed', String(dark));
+      themeToggle.setAttribute('aria-label', dark ? 'Disable dark mode' : 'Enable dark mode');
+      themeColorMeta.content = dark ? '#151e19' : '#eaf1e8';
+    }
+
+    applyTheme(document.documentElement.dataset.theme || (themePreference.matches ? 'dark' : 'light'));
+
+    themeToggle.addEventListener('click', () => {
+      const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      applyTheme(theme);
+      try {
+        localStorage.setItem('fieldnote-theme', theme);
+      } catch {}
+    });
+
+    themePreference.addEventListener('change', (event) => {
+      try {
+        if (localStorage.getItem('fieldnote-theme')) return;
+      } catch {}
+      applyTheme(event.matches ? 'dark' : 'light');
+    });
 
     likeButton.addEventListener('click', () => {
       const liked = likeButton.getAttribute('aria-pressed') === 'true';
