@@ -34,5 +34,5 @@ Then visit `http://localhost:8000`. Google Fonts and Unsplash photography are lo
 - Accessible labels and keyboard focus styles for interactive controls
 
 ## Here's how I asked Copilot to create the navigation:
-[Copilot generating navigation code](images/Screenshot 2026-09-27 212012.png)
-[Copilot generating navigation code](images/Screenshot 2026-09-27 212147.png)
+![Copilot generating navigation code](images/Screenshot%202026-09-27%20212012.png)
+![Copilot generating navigation code](images/Screenshot%202026-09-27%20212147.png)
